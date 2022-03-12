@@ -21,34 +21,35 @@ public:
     int countSubstrings(string s) {
         int result = 0;
         int length = s.length();
-        //counting the number of odd length palindroms
-        for(int i = 0; i < length; i++) {
-            int l = i;
-            int r = i;
-            while(l >=0 && r < length) {
-                if(s[l] == s[r]) {
-                    result ++;
-                    l --;
-                    r ++;
-                } else {
+        
+        // count the odd length palindromes
+        for(int i = 0; i < length; ++i) {
+            int left = i;
+            int right = i;
+            while(s[left] == s[right]) {
+                result ++;
+                left --;
+                right ++;
+                if(left < 0 || right >= length) {
                     break;
                 }
             }
         }
-        //counting the number of even length palindroms
-        for(int j = 0; j < length; j++) {
-            int l = j; 
-            int r = j + 1;
-            while(l >=0 && r < length) {
-                if(s[l] == s[r]) {
-                    result ++;
-                    l --;
-                    r ++;
-                } else {
+        
+        //count the even length palindromes
+        for(int j = 0; j < length; ++j) {
+            int left = j;
+            int right = j + 1;
+            while(s[left] == s[right]) {
+                result ++;
+                left --;
+                right ++;
+                if(left < 0 || right >= length) {
                     break;
                 }
             }
         }
+        
         return result;
     }
 };
