@@ -15,6 +15,7 @@ key ideas:
 */
 
 // solution:
+using namespace std;
 
 class Solution {
 public:
