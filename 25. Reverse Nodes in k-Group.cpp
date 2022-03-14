@@ -28,8 +28,9 @@ using namespace std;
 
 class Solution {
 public:
-    // helper function for reversing the first k nodes in a linked list
-    ListNode* reverseK(ListNode* a, int k) {
+    
+    //helper function for reversing the first k nodes
+    ListNode* helper(ListNode* a, int k) {
         ListNode* prev = nullptr;
         ListNode* curr = a;
         ListNode* next = a -> next;
@@ -38,7 +39,7 @@ public:
             curr -> next = prev;
             prev = curr;
             curr = next;
-            next = curr -> next;
+            next = next -> next;
             count ++;
         }
         curr -> next = prev;
@@ -46,20 +47,18 @@ public:
     }
     
     ListNode* reverseKGroup(ListNode* head, int k) {
-        if(k == 1) return head;
-        // create a dummy node of value 0 pointing to the head
-        ListNode* prev = new ListNode(0);
-        prev -> next = head;
-
-        ListNode* tail = head;
+        // create a dummy node for convience
+        ListNode* newHead = new ListNode(0);
+        newHead -> next = head;
+        
+        ListNode* prev = newHead;
         ListNode* curr = head;
-        ListNode* newHead = prev;
-
-        int count = 0;
+        ListNode* tail = head;
         bool ended = false;
+        
         while(!ended) {
-            // locate the new curr
-            count = 0;
+            // find the next curr
+            int count = 0;
             while(count < k) {
                 if(curr == nullptr) {
                     ended = true;
@@ -68,13 +67,16 @@ public:
                 curr = curr -> next;
                 count ++;
             }
+            
+            // do the reverse
             if(!ended) {
-                prev -> next = reverseK(tail,k);
+                prev -> next = helper(tail, k);
                 tail -> next = curr;
                 prev = tail;
                 tail = curr;
             }
-        }
+        } 
+        
         return newHead -> next;
     }
 };
