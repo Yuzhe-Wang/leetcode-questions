@@ -7,7 +7,12 @@ If target is not found in the array, return [-1, -1].
 You must write an algorithm with O(log n) runtime complexity.
 */
 
-// idea binary search
+// idea: binary search
+
+// IMPORTAND: if condition: if(left <= right
+// transition to the next iteration: left = mid + 1 & right = mid - 1
+
+
 #include <iostream>
 #include <vector>
 
@@ -15,34 +20,51 @@ using namespace std;
 
 class Solution {
 public:
-    vector<int> searchRange(vector<int>& nums, int target) {
-        vector<int> result;
+    // find the first occurrance
+    int searchFirst(vector<int>& nums, int target) {
         int left = 0;
         int right = nums.size() - 1;
-        int mid = (left + right) / 2;
+        int mid = (left+right)/2;
+        int result = -1;
         while(left <= right) {
             if(nums[mid] < target) {
                 left = mid + 1;
-                mid = (left + right) / 2;
             } else if(nums[mid] > target) {
                 right = mid - 1;
-                mid = (left + right) / 2;
             } else {
-                left = mid;
-                right = mid;
-                while(left >=0 && nums[left] == target) {
-                    left --;
-                }
-                result.push_back(left + 1);
-                while(right < nums.size() && nums[right] == target) {
-                    right ++;
-                }
-                result.push_back(right - 1);
-                return result;
+                // target == nums[mid], then we know the first will be on the left side of mid
+                result = mid;
+                right = mid - 1;
             }
+             mid = (left+right)/2;
         }
-        result.push_back(-1);
-        result.push_back(-1);
+        return result;
+    }
+    
+    int searchLast(vector<int>& nums, int target) {
+        int left = 0;
+        int right = nums.size() - 1;
+        int mid = (left+right)/2;
+        int result = -1;
+        while(left <= right) {
+            if(nums[mid] < target) {
+                left = mid + 1;
+            } else if(nums[mid] > target) {
+                right = mid - 1;
+            } else {
+                // target == nums[mid], then we know the last will be on the right side of mid
+                result = mid;
+                left = mid + 1;
+            }
+             mid = (left+right)/2;
+        }
+        return result;
+    }
+    
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> result;
+        result.push_back(searchFirst(nums,target));
+        result.push_back(searchLast(nums,target));
         return result;
     }
 };
