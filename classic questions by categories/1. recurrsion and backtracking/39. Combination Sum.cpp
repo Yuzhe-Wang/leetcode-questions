@@ -17,6 +17,9 @@ It is guaranteed that the number of unique combinations that sum up to target is
 
 termination point: 1. the sum equals to target, store the combination
 2. the sum is greater than the target, return
+
+remember to check for duplicates, sort the vector and use a set
+
 */
 #include <iostream>
 #include <vector>
