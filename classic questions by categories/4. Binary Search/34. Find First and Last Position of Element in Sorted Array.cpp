@@ -36,7 +36,7 @@ public:
                 result = mid;
                 right = mid - 1;
             }
-             mid = (left+right)/2;
+            mid = (left+right)/2;
         }
         return result;
     }
@@ -56,7 +56,7 @@ public:
                 result = mid;
                 left = mid + 1;
             }
-             mid = (left+right)/2;
+            mid = (left+right)/2;
         }
         return result;
     }
@@ -82,3 +82,37 @@ mid > target, target is on the left side
 mid == target, expand and find the range : left = mid, right = mid
 
 */
+
+
+// some possible followups
+// 1. what if the size of the array is too long that it exceeds the upper bound of int  or long?
+// mid = left + (right - left) / 2;
+// 2. what if we want to find the max in the numbers that is less than the target?
+int searchLessThan(vector<int>& nums, int target) {
+    int left = 0;
+    int right = nums.size() - 1;
+    int mid = (left+right)/2;
+    int result = -1;
+
+    if(target < nums[0]) return -1;
+
+    while(left <= right) {
+        if(nums[mid] < target) {
+            left = mid + 1;
+        } else if(nums[mid] > target) {
+            right = mid - 1;
+        } else {
+            // target == nums[mid], then we know the first will be on the left side of mid
+            result = mid;
+            right = mid - 1;
+        }
+        mid = (left+right)/2;
+    }
+    if(nums[mid] == target) {
+        if(mid > 0) {
+            return mid - 1;
+        } else {
+            return -1;
+        }
+    } else return mid;
+}
