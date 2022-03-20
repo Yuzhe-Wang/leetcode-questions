@@ -48,3 +48,8 @@ c(nums, d, n, s, curr, ans):
 
 
 side note: d is not necessary to be passed around because it can be inferred from te size of curr
+
+some possible variations:
+1. leetcode 39, one number can be used for multiple times, recurrsive step: dfs(s=i instead of i+1)
+2. leetcode 40, the input may cantains duplicates, sort the input array, and disallow same value on same depth
+3. generate combinations according to the length, generate with fixed n value for all possible n values
