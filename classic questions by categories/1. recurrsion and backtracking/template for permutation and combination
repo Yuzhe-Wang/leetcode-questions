@@ -51,5 +51,10 @@ side note: d is not necessary to be passed around because it can be inferred fro
 
 some possible variations:
 1. leetcode 39, one number can be used for multiple times, recurrsive step: dfs(s=i instead of i+1)
-2. leetcode 40, the input may cantains duplicates, sort the input array, and disallow same value on same depth
+
+2. leetcode 40, the input may cantains duplicates, sort the input array, and disallow same value on same depth, if(i > s && nums[i]==nums[i-1]) continue;
+
 3. generate combinations according to the length, generate with fixed n value for all possible n values
+
+4. leetcode 47, generate unique permutations for arrays with duplicates. For permutations, for numbers of the same value, we cannot skip the previous ones and use the later ones, because we will systamically do the permutation in such a way: for nums of the same values, we pick the ones with smaller indices first
+if(i > 0 && nums[i] == nums[i-1] && !used[i-1]) continue;
