@@ -7,18 +7,17 @@ The same number may be chosen from candidates an unlimited number of times. Two 
 It is guaranteed that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
 */
 
-// notes： numbers can be chosen for unlimited number of times
-// idea: dfs + backtracking
+/*
+array -> generate all the combinations
+1. unique combinations
+2. same number can be chosen multiple times
 
-/* layer of choices:
-1. form the entire array
-2. form the entire array
-...
-
-termination point: 1. the sum equals to target, store the combination
-2. the sum is greater than the target, return
-
-remember to check for duplicates, sort the vector and use a set
+dfs + backtracking
+for i = s to len(candidates):
+curr.push
+dfs(next layer i will start from i again)
+curr.pop
+*/
 
 */
 #include <iostream>
@@ -29,34 +28,28 @@ remember to check for duplicates, sort the vector and use a set
 using namespace std;
 class Solution {
 public:
-    void helper(vector<int>& candidates, int target, vector<vector<int> >& result, int currSum, vector<int> oneSolution, set<vector<int> >& freq) {
-        // base cases:
-        if(currSum == target) {
-            sort(oneSolution.begin(), oneSolution.end());
-            if(freq.find(oneSolution) == freq.end()) {
-                result.push_back(oneSolution);
-                freq.insert(oneSolution);
+    
+    void dfs(vector<int>& candidates, int target, int s, vector<vector<int>>& ans, vector<int>& curr) {
+        // base case
+        if(target <= 0) {
+            if(target == 0) {
+                ans.push_back(curr);
             }
             return;
         }
-        if(currSum > target) {
-            return;
-        }
-        // recurrsion + backtracking
-        for(int i = 0; i < candidates.size(); ++i) {
-            int temp = candidates[i];
-            oneSolution.push_back(temp);
-            helper(candidates, target, result, currSum + temp, oneSolution, freq);
-            oneSolution.pop_back();
+        
+        // recurrsive steps
+        for(int i = s; i < candidates.size(); ++i) {
+            curr.push_back(candidates[i]);
+            dfs(candidates, target - candidates[i], i, ans, curr);
+            curr.pop_back();
         }
     }
     
-    vector<vector<int> > combinationSum(vector<int>& candidates, int target) {
-        vector<vector<int> > result;
-        vector<int> oneSolution;
-        int currSum = 0;
-        set<vector<int> > freq;
-        helper(candidates, target, result, currSum, oneSolution, freq);
-        return result;
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> ans;
+        vector<int> curr;
+        dfs(candidates, target, 0, ans, curr);
+        return ans;
     }
 };
