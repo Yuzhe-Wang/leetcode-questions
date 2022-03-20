@@ -1,0 +1,50 @@
+Permutation(nums, n)
+generate all permutations of length n
+
+parameters:
+1. nums: the given array
+2. d: the current depth of the search tree
+3. n: the length of the permutations
+4. used: an array of bool, labeling whether the number on index i is used or not (alternativly a set). It has the same length with the given array
+5. curr: an array to store temperoary answer
+6. and: an array of array, the answers
+
+p(nums, d, n, used, curr, ans):
+    if d == n:
+        ans.append(curr)
+        return
+    
+    for i = 0 to len(nums):
+        if used[i]:
+            continue
+        used[i] = True
+        curr.push(nums[i])
+        p(nums, d+1, n, used, curr, ans)
+        curr.pop()
+        used[i] = false
+
+Combination(nums,n)
+generate all the combinations of length n
+
+parameters:
+1. nums: the given array
+2. d: the current depth of the search tree
+3. n: the length of the permutations
+4. s: the current lower bound for possible answers, this ensure that the number on a certain index will be used only once on a certain layer in the decision tree
+5. curr: an array to store the temperoary answer
+6. ans: an array of array, the answers
+
+note that we don't need an used array because the for loop is different, in combination, orders doesn't matter
+
+c(nums, d, n, s, curr, ans):
+    if d == n:
+        ans.append(curr)
+        return
+    
+    for i = s to len(nums):
+        curr.push(nums[i])
+        c(nums, d + 1, n, i + 1, curr, ans)
+        curr.pop()
+
+
+side note: d is not necessary to be passed around because it can be inferred from te size of curr
