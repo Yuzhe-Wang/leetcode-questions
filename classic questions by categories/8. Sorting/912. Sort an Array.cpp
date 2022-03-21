@@ -47,12 +47,49 @@ public:
         }
         // sort with the heap
         for(int j = n - 1; j >=0; j--) {
-            int m = nums[0];
             swap(nums[0], nums[j]);
             heapify(nums,0,j);
         }
     }
     
+    // copy version of merge
+    void merge(vector<int>& nums, int left, int mid, int right) {
+        int start = left;
+        int left2 = mid + 1;
+        if(nums[mid] < nums[left2]) return;
+        vector<int> temp(right - left + 1);
+        int i = 0;
+        while(left <= mid && left2 <= right) {
+            if(nums[left] <= nums[left2]) {
+                temp[i] = nums[left];
+                left ++;
+            } else {
+                temp[i] = nums[left2];
+                left2 ++;
+            }
+            i ++;
+        }
+        if(left <= mid) {
+            for(int j = left; j <= mid; ++j) {
+                temp[i] = nums[j];
+                i ++;
+            }
+        }
+        if(left2 <= right) {
+            for(int j = left2; j <= right; ++j) {
+                temp[i] = nums[j];
+                i ++;
+            }
+        }
+        
+        int q = 0;
+        for(int k = start; k <= right; ++k) {
+            nums[k] = temp[q];
+            q++;
+        }
+    }
+
+    // in place version of merge, this will tle although it saves spaces
     void merge(vector<int>& nums, int left, int mid, int right) {
         // merge two already sorted array
         if(nums[mid] < nums[mid + 1]) {
@@ -116,6 +153,7 @@ public:
         // heap sort
         // int n = nums.size();
         //heapsort(nums,n);
+        // 只有heap sort是超过边界的
         
         // merge sort
         //mergesort(nums, 0, nums.size() - 1);
